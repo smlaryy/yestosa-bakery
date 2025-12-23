@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* smooth horizontal scroll */
+.scroll-smooth-x {
+  scroll-behavior: smooth;
+}
+
+/* hide scrollbar (cross browser) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+@keyframes slideLeft {
+  0%, 100% { transform: translateX(0); opacity: .5; }
+  50% { transform: translateX(-6px); opacity: 1; }
+}
+
+@keyframes slideRight {
+  0%, 100% { transform: translateX(0); opacity: .5; }
+  50% { transform: translateX(6px); opacity: 1; }
+}
+
+.animate-slide-left {
+  animation: slideLeft 1.6s ease-in-out infinite;
+}
+
+.animate-slide-right {
+  animation: slideRight 1.6s ease-in-out infinite;
+}

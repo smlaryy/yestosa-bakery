@@ -13,7 +13,7 @@ class ProductCatalogController extends Controller
     public function home()
     {
         $latestProducts = Product::with(['category', 'primaryImage'])
-            ->where('is_available', true)
+            ->orderByDesc('is_available')
             ->latest()
             ->take(6)
             ->get();
@@ -30,7 +30,7 @@ class ProductCatalogController extends Controller
             ->get();
 
         $products = Product::with(['category', 'primaryImage'])
-            ->where('is_available', true)
+            ->orderByDesc('is_available')
             ->when($categorySlug, function ($q) use ($categorySlug) {
                 $q->whereHas('category', fn($cq) => $cq->where('slug', $categorySlug));
             })

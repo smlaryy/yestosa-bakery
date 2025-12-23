@@ -11,7 +11,7 @@
 
 <body class="min-h-screen bg-[#FAF7F2] text-[#5A1F2A]">
     <header class="border-b bg-white" x-data="{ open: false }">
-         <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
 
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center gap-3">
@@ -165,6 +165,20 @@
         }
     </style>
     @endif
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function poClosedAlert() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Pre-Order Ditutup',
+                text: 'Produk ini sedang tidak menerima pesanan saat ini.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#6B1F2B'
+            })
+        }
+    </script>
 
 
 </body>

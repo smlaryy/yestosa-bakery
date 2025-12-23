@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-yestosa-bakery.png') }}">
-    <title>@yield('title', 'Admin') - {{ config('app.name') }}</title>
+    <title>@yield('title', 'Admin') - Admin Panel</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-zinc-50 text-zinc-900">
+<body class="min-h-screen bg-zinc-50 text-[#5A1F2A]">
     <header class="border-b bg-white" x-data="{ open: false }">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
@@ -86,6 +86,33 @@
 
         @yield('content')
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Yakin mau hapus?',
+                        text: 'Data yang dihapus tidak bisa dikembalikan.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#7c2d12', // coklat cake 🍰
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Ya, hapus',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>

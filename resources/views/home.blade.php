@@ -14,7 +14,7 @@ $waLink = $wa
 
 <div class="max-w-6xl mx-auto px-4">
 
-    {{-- HERO (awal banget) --}}
+    {{-- HERO --}}
     <section class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         <div>
             <h1 class="text-4xl font-bold leading-tight">
@@ -68,11 +68,11 @@ $waLink = $wa
         </div>
     </section>
 
-    {{-- PRODUK TERBARU --}}
+    {{-- BEST SELLER --}}
     @if(isset($latestProducts) && $latestProducts->count())
     <section class="mt-14">
         <div class="flex items-end justify-between gap-4">
-            <h2 class="text-2xl font-bold">Best Seller</h2>
+            <h2 class="text-2xl font-bold">Best Seller 🔥</h2>
 
             <a href="{{ route('products.index') }}"
                 class="text-sm font-semibold text-zinc-700 hover:text-zinc-900 underline">
@@ -80,61 +80,91 @@ $waLink = $wa
             </a>
         </div>
 
-        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
-            @foreach($latestProducts as $product)
-            <a href="{{ route('products.show', $product->slug) }}"
-                class="group bg-white border rounded-2xl overflow-hidden hover:shadow-md transition">
 
-                {{-- Foto --}}
-                <div class="aspect-square bg-zinc-100">
-                    @if($product->primaryImage)
-                    <img
-                        src="{{ asset('storage/'.$product->primaryImage->image_path) }}"
-                        alt="{{ $product->name }}"
-                        class="w-full h-full object-cover group-hover:scale-105 transition">
-                    @else
-                    <div class="w-full h-full flex items-center justify-center text-xs text-zinc-400">
-                        No Image
-                    </div>
-                    @endif
-                </div>
 
-                {{-- Info --}}
-                <div class="p-3 space-y-1">
-                    <div class="font-semibold text-sm leading-tight line-clamp-2">
-                        {{ $product->name }}
-                    </div>
 
-                    <div class="text-sm font-bold text-zinc-900">
-                        {{ $product->price_label }}
-                    </div>
-
-                    <div class="mt-2 flex flex-col gap-1.5">
-                        @if($product->min_preorder_days)
-                        <span class="inline-flex items-center self-start rounded-full
-                        px-3 py-1.5 text-xs font-medium
-                      bg-[#FBF1E1] text-[#6B1F2B]
-                        ring-1 ring-inset ring-[#E8D2C9] hover:bg-[#F6E8DB] transition">
-                            PO H-{{ $product->min_preorder_days }}
-                        </span>
+        {{-- wrapper scroll --}}
+        <div class="relative mt-6 -mx-4 px-4">
+            <div class="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#FAF7F2] to-transparent pointer-events-none"></div>
+            <div class="mt-6 -mx-4 px-4 overflow-x-auto no-scrollbar scroll-smooth-x">
+                <div class="flex gap-6 pb-2 snap-x snap-mandatory">
+                    @foreach($latestProducts as $product)
+                    <a
+                        href="{{ $product->is_available ? route('products.show', $product->slug) : '#' }}"
+                        @if(!$product->is_available)
+                        onclick="event.preventDefault(); poClosedAlert();"
+                        aria-disabled="true"
                         @endif
+                        class="snap-start shrink-0 w-[240px] sm:w-[260px] lg:w-[280px]
+                        group bg-white rounded-2xl border border-zinc-200 overflow-hidden transition hover:shadow-md
+                        {{ !$product->is_available ? 'opacity-70 cursor-not-allowed' : '' }}"
+                        >
+                        {{-- Foto --}}
+                        <div class="relative aspect-square bg-zinc-100 overflow-hidden">
+                            @if($product->primaryImage)
+                            <img
+                                src="{{ asset('storage/'.$product->primaryImage->image_path) }}"
+                                alt="{{ $product->name }}"
+                                class="w-full h-full object-cover transition {{ $product->is_available ? 'group-hover:scale-105' : 'grayscale' }}">
+                            @else
+                            <div class="w-full h-full flex items-center justify-center text-xs text-zinc-400">
+                                No Image
+                            </div>
+                            @endif
 
-                        @if($product->min_order)
-                        <span class="inline-flex items-center self-start rounded-full
-                        px-3 py-1.5 text-xs font-medium
-                      bg-white text-[#6B1F2B]
-                        ring-1 ring-inset ring-[#E8D2C9] hover:bg-[#F6E8DB] transition">
-                            Min {{ $product->min_order }} pcs
-                        </span>
-                        @endif
-                    </div>
+                            {{-- BADGE overlay (konsisten) --}}
+                            <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+                                @if(!$product->is_available)
+                                <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium
+                              bg-zinc-100 text-zinc-700 ring-1 ring-inset ring-zinc-200">
+                                    PO Tutup
+                                </span>
+                                @else
+                                @if($product->min_preorder_days)
+                                <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium
+                              bg-[#FBF1E1] text-[#6B1F2B] ring-1 ring-inset ring-[#E8D2C9]">
+                                    PO H-{{ $product->min_preorder_days }}
+                                </span>
+                                @endif
 
+                                @if($product->min_order)
+                                <span class="inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium
+                              bg-white text-[#6B1F2B] ring-1 ring-inset ring-[#E8D2C9]">
+                                    Min {{ $product->min_order }} pcs
+                                </span>
+                                @endif
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Info --}}
+                        <div class="p-4 space-y-1">
+                            <div class="text-xs text-zinc-500">{{ $product->category->name ?? '-' }}</div>
+
+                            <div class="font-semibold leading-tight line-clamp-2 min-h-[40px]">
+                                {{ $product->name }}
+                            </div>
+
+                            <div class="text-sm font-bold text-zinc-900">
+                                {{ $product->price_label }}
+                            </div>
+                        </div>
+                    </a>
+                    @endforeach
                 </div>
-            </a>
-            @endforeach
+            </div>
         </div>
-    </section>
-    @endif
+        
+        <div class="mt-3 flex items-center justify-center gap-2 text-xs text-zinc-500 select-none">
+            <span class="animate-slide-left">←</span>
+            <span>Geser untuk melihat produk lainnya</span>
+            <span class="animate-slide-right">→</span>
+        </div>
+</div>
+</section>
+@endif
+
+
 
 </div>
 @endsection

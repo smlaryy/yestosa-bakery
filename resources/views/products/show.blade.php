@@ -87,9 +87,6 @@ $imgUrls = $imgs->map(fn($img) => asset('storage/' . $img->image_path))->values(
 
     </div>
 
-
-
-
     <div>
         <div class="text-sm text-zinc-500 mb-1">{{ $product->category->name }}</div>
         <h1 class="text-3xl font-bold mb-3">{{ $product->name }}</h1>
