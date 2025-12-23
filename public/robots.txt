@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: https://yestosabakery.com/sitemap.xml

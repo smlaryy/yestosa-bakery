@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Public\ProductCatalogController;
+use App\Models\Product;
 
 
 Route::get('/', [ProductCatalogController::class, 'home'])->name('home');
@@ -33,6 +34,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/sitemap.xml', function () {
+    $products = Product::query()
+        ->where('is_available', true)
+        ->get(['slug', 'updated_at']);
+
+    return response()
+        ->view('sitemap', compact('products'))
+        ->header('Content-Type', 'application/xml');
 });
 
 require __DIR__ . '/auth.php';

@@ -1,5 +1,6 @@
 @extends('layouts.public')
-@section('title', $product->name)
+@section('title', $product->name.' - '.config('business.name'))
+@section('meta_description', Str::limit(strip_tags($product->description ?? ''), 150, ''))
 
 @section('content')
 @php

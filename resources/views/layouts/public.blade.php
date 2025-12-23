@@ -5,8 +5,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-yestosa-bakery.png') }}">
-    <title>@yield('title', 'Yestosa Bakery')</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <title>@yield('title', config('business.name', 'Yestosa Bakery'))</title>
+    <meta name="description" content="@yield('meta_description', 'Pre-order roti, snack, snack box area Cepu–Blora–Padangan–Bojonegoro. Pesan via WhatsApp, PO H-1/H-2.')">
+    <meta property="og:site_name" content="{{ config('business.name') }}">
+    <meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', config('business.name'))))">
+    <meta property="og:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', '')))">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="@yield('og_image', asset('images/logo-yestosa-bakery.jpg'))">
+
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @php
+    $jsonLd = [
+    "@context" => "https://schema.org",
+    "@type" => "Bakery",
+    "name" => config('business.name', 'Yestosa Bakery'),
+    "areaServed" => config('business.area', 'Cepu - Padangan'),
+    "url" => url('/'),
+    ];
+    @endphp
+
+    <script type="application/ld+json">
+        {
+            !!json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!
+        }
+    </script>
+
 </head>
 
 <body class="min-h-screen bg-[#FAF7F2] text-[#5A1F2A]">

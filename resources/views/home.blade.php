@@ -1,5 +1,6 @@
 @extends('layouts.public')
-@section('title', config('business.name', 'Yestosa Bakery'))
+@section('title', config('business.name').' - Pre-order Snack & Bakery')
+<meta name="description" content="@yield('meta_description', 'Pre-order roti, snack, snack box area Cepu–Blora–Padangan–Bojonegoro. Pesan via WhatsApp, PO H-1/H-2.')">
 
 @section('content')
 @php
@@ -154,7 +155,7 @@ $waLink = $wa
                 </div>
             </div>
         </div>
-        
+
         <div class="mt-3 flex items-center justify-center gap-2 text-xs text-zinc-500 select-none">
             <span class="animate-slide-left">←</span>
             <span>Geser untuk melihat produk lainnya</span>
@@ -163,8 +164,5 @@ $waLink = $wa
 </div>
 </section>
 @endif
-
-
-
 </div>
 @endsection
