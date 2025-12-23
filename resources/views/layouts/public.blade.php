@@ -122,7 +122,7 @@
 
     <footer class="border-t bg-white">
         <div class="max-w-6xl mx-auto px-6 py-6 text-sm text-zinc-600">
-            © {{ date('Y') }} Yestosa Bakery • Cepu – Padangan
+            © {{ date('Y') }} Yestosa Bakery. All rights reserved.
         </div>
     </footer>
 
